@@ -1,12 +1,15 @@
 package com.example.impati.messaging_system.domain;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ChannelRepository {
 
-    Channel save(Channel channel);
+    void save(Channel channel);
 
     Optional<Channel> findById(String channelId);
 
-    Optional<Channel> findByChannelName(String channelName);
+    Channel getByChannelName(String channelName);
+    
+    List<Channel> findAll();
 }
