@@ -1,5 +1,5 @@
 ### 채널 등록
-POST http://localhost:8080/v1/channels
+POST http://localhost:9090/v1/channels
 Content-Type: application/json
 
 {
@@ -7,7 +7,7 @@ Content-Type: application/json
 }
 
 ### 채널에 메시지 추가
-POST http://localhost:8080/v1/channels/test/messages-publication
+POST http://localhost:9090/v1/channels/test/messages-publication
 Content-Type: application/json
 
 {
@@ -18,5 +18,5 @@ Content-Type: application/json
 }
 
 ### 채널 조회
-GET http://localhost:8080/v1/channels/test
+GET http://localhost:9090/v1/channels/signUp
 Content-Type: application/json

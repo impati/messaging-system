@@ -4,6 +4,7 @@ import com.example.impati.messaging_system.adaptor.in.rest.request.ChannelReques
 import com.example.impati.messaging_system.adaptor.in.rest.request.MessageRequest;
 import com.example.impati.messaging_system.adaptor.in.rest.request.SubscribeRequest;
 import com.example.impati.messaging_system.adaptor.in.rest.response.ChannelResponse;
+import com.example.impati.messaging_system.adaptor.in.rest.response.ErrorResponse;
 import com.example.impati.messaging_system.adaptor.in.rest.response.MessageResponse;
 import com.example.impati.messaging_system.adaptor.in.rest.response.MessagesResponse;
 import com.example.impati.messaging_system.adaptor.in.rest.response.SubscribeResponse;
@@ -14,9 +15,12 @@ import com.example.impati.messaging_system.domain.ClientRepository;
 import com.example.impati.messaging_system.domain.Consumer;
 import com.example.impati.messaging_system.domain.ConsumerRepository;
 import com.example.impati.messaging_system.domain.Message;
+import com.example.impati.messaging_system.domain.exception.ChannelNotFoundException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -79,7 +83,7 @@ public class ChannelController {
     @PostMapping("/v1/channels/{channelName}/message-subscribe")
     public ResponseEntity<SubscribeResponse> subscribe(@PathVariable String channelName, @RequestBody SubscribeRequest request) {
         Channel channel = channelRepository.getByChannelName(channelName);
-        Client client = clientRepository.getById(channelName);
+        Client client = clientRepository.getById(request.clientId());
         Consumer consumer = Consumer.create(client, channel);
         consumerRepository.save(consumer);
 
@@ -87,7 +91,7 @@ public class ChannelController {
     }
 
     /**
-     * 메시지 전송
+     * 메시지 소비
      */
     @GetMapping("/v1/consume/{consumerId}")
     public ResponseEntity<MessagesResponse> consume(@PathVariable String consumerId) {
@@ -98,5 +102,14 @@ public class ChannelController {
         );
 
         return ResponseEntity.ok().body(response);
+    }
+
+    @ExceptionHandler(ChannelNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleBadRequest(ChannelNotFoundException ex) {
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(new ErrorResponse(
+                        ex.getMessage()
+                ));
     }
 }
