@@ -2,6 +2,7 @@ package com.example.impati.messaging_system.adaptor.out.data;
 
 import com.example.impati.messaging_system.domain.Client;
 import com.example.impati.messaging_system.domain.ClientRepository;
+import com.example.impati.messaging_system.domain.exception.ClientNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.stereotype.Repository;
@@ -19,5 +20,14 @@ public class MemoryClientRepository implements ClientRepository {
     @Override
     public Client getById(final String clientId) {
         return store.get(clientId);
+    }
+
+    @Override
+    public Client getByClientName(final String clientName) {
+        return store.values()
+                .stream()
+                .filter(it -> it.clientName().equals(clientName))
+                .findFirst()
+                .orElseThrow(ClientNotFoundException::new);
     }
 }

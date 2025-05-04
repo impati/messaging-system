@@ -6,6 +6,15 @@ Content-Type: application/json
   "channelName": "test"
 }
 
+### 클라이언트 등록
+POST http://localhost:9090/v1/client?clientName=tester
+Content-Type: application/json
+
+### 클라이언트 조회
+GET http://localhost:9090/v1/client?clientName=signUp
+Content-Type: application/json
+
+
 ### 채널에 메시지 추가
 POST http://localhost:9090/v1/channels/test/messages-publication
 Content-Type: application/json
@@ -17,6 +26,26 @@ Content-Type: application/json
   }
 }
 
+### 채널 구독
+POST http://localhost:9090/v1/channels/signUp/message-subscribe
+Content-Type: application/json
+
+{
+  "clientId": "6ea40"
+}
+
+###
+GET http://localhost:9090/v1/channels/signUp/message-subscribe?clientId=6ea40
+Content-Type: application/json
+
+
 ### 채널 조회
 GET http://localhost:9090/v1/channels/signUp
 Content-Type: application/json
+
+
+### 메시지 소비
+GET http://localhost:9090/v1/consume/9b977
+Content-Type: application/json
+
+

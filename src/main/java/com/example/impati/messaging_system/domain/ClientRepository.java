@@ -5,4 +5,6 @@ public interface ClientRepository {
     void save(Client client);
 
     Client getById(String clientId);
+
+    Client getByClientName(String clientName);
 }

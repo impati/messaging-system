@@ -8,5 +8,7 @@ public interface ConsumerRepository {
 
     Consumer getById(String consumerId);
 
+    Consumer getByClientAndChannel(Client client, Channel channel);
+
     List<Consumer> getByChannel(Channel channel);
 }
