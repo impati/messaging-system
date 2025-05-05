@@ -28,7 +28,16 @@ public class Channel {
         return this.channelName.equals(channelName);
     }
 
+    /**
+     * 현재 보내는 메시지가 이전에 받은 메시지였다면 insert 하지 않음
+     * 하지만 , updateQueuing 작업이 있기 때문에 전체 시간동안 같은 메시지가 단 한번도 존재하지 않을거라는 보장은 할 수 없음.
+     * 따라서 동일한 메시지가 소비될 수 있다는 것은 컨슈머에서도 인지하고 있어야함.
+     */
     public void insert(Message message) {
+        if (queue.contains(message)) {
+            return;
+        }
+
         queue.add(message);
     }
 

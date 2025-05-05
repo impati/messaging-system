@@ -17,14 +17,17 @@ class ConsumerTest {
         Channel channel = Channel.create("channel");
         Consumer consumer = Consumer.create(client, channel);
         channel.insert(new Message(
+                "1",
                 LocalDateTime.now(),
                 JsonNodeFactory.instance.numberNode(3)
         ));
         channel.insert(new Message(
+                "2",
                 LocalDateTime.now(),
                 JsonNodeFactory.instance.numberNode(2)
         ));
         channel.insert(new Message(
+                "3",
                 LocalDateTime.now(),
                 JsonNodeFactory.instance.numberNode(1)
         ));
@@ -40,11 +43,13 @@ class ConsumerTest {
         Client client = Client.create("client");
         Channel channel = Channel.create("channel");
         channel.insert(new Message(
+                "4",
                 LocalDateTime.now(),
                 JsonNodeFactory.instance.numberNode(1)
         ));
         Consumer consumer = Consumer.create(client, channel);
         channel.insert(new Message(
+                "5",
                 LocalDateTime.now(),
                 JsonNodeFactory.instance.numberNode(2)
         ));
@@ -60,21 +65,25 @@ class ConsumerTest {
         Client client = Client.create("client");
         Channel channel = Channel.create("channel");
         channel.insert(new Message(
+                "1",
                 LocalDateTime.now(),
                 JsonNodeFactory.instance.numberNode(1)
         ));
         Consumer consumer = Consumer.create(client, channel);
         channel.insert(new Message(
+                "2",
                 LocalDateTime.now(),
                 JsonNodeFactory.instance.numberNode(2)
         ));
         List<Message> beforeMessage = consumer.consume();
 
         channel.insert(new Message(
+                "3",
                 LocalDateTime.now(),
                 JsonNodeFactory.instance.numberNode(3)
         ));
         channel.insert(new Message(
+                "4",
                 LocalDateTime.now(),
                 JsonNodeFactory.instance.numberNode(4)
         ));

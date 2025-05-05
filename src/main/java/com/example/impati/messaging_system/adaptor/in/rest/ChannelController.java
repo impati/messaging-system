@@ -7,6 +7,7 @@ import com.example.impati.messaging_system.adaptor.in.rest.response.ChannelRespo
 import com.example.impati.messaging_system.adaptor.in.rest.response.ErrorResponse;
 import com.example.impati.messaging_system.adaptor.in.rest.response.MessageResponse;
 import com.example.impati.messaging_system.adaptor.in.rest.response.MessagesResponse;
+import com.example.impati.messaging_system.adaptor.in.rest.response.PublicationResponse;
 import com.example.impati.messaging_system.adaptor.in.rest.response.SubscribeResponse;
 import com.example.impati.messaging_system.domain.Channel;
 import com.example.impati.messaging_system.domain.ChannelRepository;
@@ -54,11 +55,12 @@ public class ChannelController {
      * 채널에 메시지 발행
      */
     @PostMapping("/v1/channels/{channelName}/messages-publication")
-    public ResponseEntity<Void> insertMessage(@PathVariable String channelName, @RequestBody MessageRequest request) {
+    public ResponseEntity<PublicationResponse> insertMessage(@PathVariable String channelName, @RequestBody MessageRequest request) {
         log.info("insertMessage channelName = {} , request  = {}", channelName, request);
         Channel channel = channelRepository.getByChannelName(channelName);
-        channel.insert(new Message(request.createdAt(), request.data()));
-        return ResponseEntity.ok().build();
+        Message message = new Message(request.id(), request.createdAt(), request.data());
+        channel.insert(message);
+        return ResponseEntity.ok(new PublicationResponse(message.id()));
     }
 
     /**
